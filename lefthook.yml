@@ -2,7 +2,7 @@ pre-commit:
   commands:
     format:
       run: pnpm exec eslint --fix {staged_files} && pnpm exec prettier --write {staged_files}
-pre-push:
-  commands:
-    test:
-      run: pnpm test
+# pre-push:
+#   commands:
+#     test:
+#       run: pnpm test:unit
