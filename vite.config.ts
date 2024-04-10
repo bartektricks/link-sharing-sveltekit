@@ -7,7 +7,7 @@ export default defineConfig({
 		globals: true,
 		include: ['src/**/*.{test,spec}.ts'],
 		coverage: {
-			include: ["**/*.{ts,svelte}", "!**/+*.{ts,svelte}", "!playwright.config.ts"]
-		}
-	}
+			include: ['**/*.{ts,svelte}', '!**/+*.{ts,svelte}', '!playwright.config.ts'],
+		},
+	},
 });
