@@ -9,6 +9,7 @@ node_modules
 lefthook.yml
 .prettierignore
 *.css
+*.ttf
 
 # Ignore files for PNPM, NPM and YARN
 pnpm-lock.yaml

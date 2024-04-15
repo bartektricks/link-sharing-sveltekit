@@ -45,6 +45,10 @@ p {
 	text-wrap: pretty;
 }
 
+ul[class] {
+	list-style: none;
+}
+
 [hidden] {
 	display: none;
 }

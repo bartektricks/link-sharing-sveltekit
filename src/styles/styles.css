@@ -1,0 +1,5 @@
+@layer colors, reset, fonts;
+
+@import url('./_fonts.css') layer(fonts);
+@import url('./_reset.css') layer(reset);
+@import url('./_colors.css') layer(colors);

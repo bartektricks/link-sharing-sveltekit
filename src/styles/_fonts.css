@@ -1,0 +1,36 @@
+@font-face {
+	font-family: 'Instrument Sans';
+	src: url('/fonts/InstrumentSans-VariableFont_wdth,wght.ttf')
+		format('truetype supports variations');
+	font-weight: 400 900;
+}
+
+:root {
+	font-family: 'Instrument Sans', sans-serif;
+	font-size: 62.5%;
+	line-height: 1.5;
+	font-weight: 400;
+}
+
+html,
+body {
+	font-size: 1.6rem;
+}
+
+.heading-m {
+	font-size: 3.2rem;
+	font-weight: 700;
+}
+
+.heading-s {
+	font-size: 1.6rem;
+	font-weight: 700;
+}
+
+.body-m {
+	font-size: 1.6rem;
+}
+
+.body-s {
+	font-size: 1.2rem;
+}
