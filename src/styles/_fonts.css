@@ -15,22 +15,27 @@
 html,
 body {
 	font-size: 1.6rem;
+	color: var(--grey);
 }
 
 .heading-m {
 	font-size: 3.2rem;
 	font-weight: 700;
+	color: var(--dark-grey);
 }
 
 .heading-s {
 	font-size: 1.6rem;
 	font-weight: 700;
+	color: var(--dark-grey);
 }
 
 .body-m {
 	font-size: 1.6rem;
+	color: var(--grey);
 }
 
 .body-s {
 	font-size: 1.2rem;
+	color: var(--grey);
 }
