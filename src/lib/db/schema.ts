@@ -5,9 +5,10 @@ export const TABLE_PREFIX = 'lss';
 
 export const createTable = sqliteTableCreator((name) => `${TABLE_PREFIX}_${name}`);
 
-export const posts = createTable('posts', {
+export const users = createTable('users', {
 	id: int('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
-	name: text('name', { length: 256 }),
+	email: text('email', { length: 256 }).unique().notNull(),
+	password: text('password', { length: 256 }).notNull(),
 	createdAt: int('created_at', { mode: 'timestamp' })
 		.default(sql`CURRENT_TIMESTAMP`)
 		.notNull(),

@@ -11,6 +11,7 @@
 	export let subtitle: string;
 	export let fields: Field[];
 	export let submitText: string;
+	export let errors: Record<string, string[]> = {};
 </script>
 
 <section class="auth-form">
@@ -19,15 +20,18 @@
 		<p class="body-m">{subtitle}</p>
 	</header>
 
-	<form>
+	<form method="POST">
 		{#each fields as { label, ...field } (field.name)}
 			<label>
 				<span>{label}</span>
 				<input {...field} />
+				{#if field.name && errors[field.name]}
+					<p class="error">{errors[field.name].join(', ')}</p>
+				{/if}
 			</label>
 		{/each}
 		<slot name="additional-fields" />
-		<input type="button" value={submitText} />
+		<input type="submit" value={submitText} />
 	</form>
 
 	<footer>
@@ -50,6 +54,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2.4rem;
+	}
+
+	.error {
+		color: var(--red);
 	}
 
 	footer {
