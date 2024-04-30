@@ -9,7 +9,6 @@ export const lucia = new Lucia(adapter, {
 			secure: !dev,
 		},
 	},
-	getUserAttributes: (attributes) => attributes,
 });
 
 export const setSessionCookie = async (id: string, cookies: Cookies) => {
@@ -24,10 +23,5 @@ export const setSessionCookie = async (id: string, cookies: Cookies) => {
 declare module 'lucia' {
 	interface Register {
 		Lucia: typeof lucia;
-		DatabaseUserAttributes: DatabaseUserAttributes;
 	}
 }
-
-type DatabaseUserAttributes = {
-	username: string;
-};
