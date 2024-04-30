@@ -1,10 +1,10 @@
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { loginSchema } from './_loginSchema';
-import db from '$lib/db';
-import { verifyPassword } from '$lib/auth/password';
+import { setSessionCookie } from '$lib/auth/session';
+import { getUserData } from '$lib/db/user';
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const formDataEntries = Object.fromEntries(formData.entries());
 
@@ -17,19 +17,17 @@ export const actions = {
 			});
 		}
 
-		const user = await db.query.users.findFirst({
-			where: (user, { eq }) => eq(user.email, data.email),
-		});
+		const user = await getUserData(data.email, data.password);
 
-		const passwordMatch = user && (await verifyPassword(data.password, user.password));
-
-		if (!passwordMatch) {
+		if (!user) {
 			return fail(400, {
 				formErrors: ['Invalid email or password'],
 				fieldErrors: {},
 				fields: formDataEntries,
 			});
 		}
+
+		setSessionCookie(cookies, user);
 
 		redirect(302, '/');
 	},

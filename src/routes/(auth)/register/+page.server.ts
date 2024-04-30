@@ -1,8 +1,6 @@
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { registerSchema } from './_registerSchema';
-import db from '$lib/db';
-import { users } from '$lib/db/schema';
-import { hashPassword } from '$lib/auth/password';
+import { setUserData } from '$lib/db/user';
 
 export const actions = {
 	default: async ({ request }) => {
@@ -18,26 +16,9 @@ export const actions = {
 			});
 		}
 
-		let hashedPass = '';
-
-		try {
-			hashedPass = await hashPassword(data.password);
-		} catch (error) {
-			console.error(error); // TODO: implement pino logger
-
-			return fail(500, {
-				formErrors: ['Something went wrong'],
-				fieldErrors: {},
-				fields: formDataEntries,
-			});
-		}
-
 		// This should be better but it's just an MVP.
 		try {
-			await db.insert(users).values({
-				email: data.email,
-				password: hashedPass,
-			});
+			await setUserData(data);
 		} catch (error) {
 			if (error instanceof Error && error.message.includes('email')) {
 				return fail(400, {
