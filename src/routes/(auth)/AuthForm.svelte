@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	import { enhance } from '$app/forms';
 	import type { HTMLInputAttributes } from 'svelte/elements';
 
 	export type Field = {
@@ -11,7 +12,7 @@
 	export let subtitle: string;
 	export let fields: Field[];
 	export let submitText: string;
-	export let errors: Record<string, string[]> = {};
+	export let errors: Record<string, string[]> | undefined = {};
 </script>
 
 <section class="auth-form">
@@ -20,12 +21,12 @@
 		<p class="body-m">{subtitle}</p>
 	</header>
 
-	<form method="POST">
+	<form method="POST" use:enhance>
 		{#each fields as { label, ...field } (field.name)}
 			<label>
 				<span>{label}</span>
 				<input {...field} />
-				{#if field.name && errors[field.name]}
+				{#if field.name && errors?.[field.name]}
 					<p class="error">{errors[field.name].join(', ')}</p>
 				{/if}
 			</label>
