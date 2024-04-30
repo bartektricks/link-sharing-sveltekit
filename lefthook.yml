@@ -1,6 +1,7 @@
 pre-commit:
   commands:
     format:
+      glob: "*.{ts,tsx,js,jsx,json,svelte}"
       run: pnpm exec eslint --fix {staged_files} && pnpm exec prettier --write {staged_files}
       stage_fixed: true
     check:

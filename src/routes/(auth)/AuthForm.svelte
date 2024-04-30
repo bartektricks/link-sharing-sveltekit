@@ -1,6 +1,22 @@
 <script context="module" lang="ts">
 	import { enhance } from '$app/forms';
 	import type { HTMLInputAttributes } from 'svelte/elements';
+	import EmailIcon from '$icons/icon-email.svelte';
+	import PasswordIcon from '$icons/icon-password.svelte';
+
+	import Input from '$components/Input.svelte';
+
+	function getIcon(name: string | null | undefined) {
+		switch (name) {
+			case 'email':
+				return EmailIcon;
+			case 'password':
+			case 'confirmPassword':
+				return PasswordIcon;
+			default:
+				return undefined;
+		}
+	}
 
 	export type Field = {
 		label: string;
@@ -23,13 +39,8 @@
 
 	<form method="POST" use:enhance>
 		{#each fields as { label, ...field } (field.name)}
-			<label>
-				<span>{label}</span>
-				<input {...field} />
-				{#if field.name && errors?.[field.name]}
-					<p class="error">{errors[field.name].join(', ')}</p>
-				{/if}
-			</label>
+			{@const error = field.name && errors?.[field.name]?.join(', ')}
+			<Input {field} {label} {error} icon={getIcon(field.name)}></Input>
 		{/each}
 		<slot name="additional-fields" />
 		<input type="submit" value={submitText} />
@@ -55,10 +66,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2.4rem;
-	}
-
-	.error {
-		color: var(--red);
 	}
 
 	footer {
