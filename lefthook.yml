@@ -3,6 +3,8 @@ pre-commit:
     format:
       run: pnpm exec eslint --fix {staged_files} && pnpm exec prettier --write {staged_files}
       stage_fixed: true
+    check:
+      run: pnpm check
 # pre-push:
 #   commands:
 #     test:
