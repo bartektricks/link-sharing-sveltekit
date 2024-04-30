@@ -28,7 +28,7 @@ export const actions = {
 		}
 
 		try {
-			await setSessionCookie(user.id, cookies);
+			await setSessionCookie(cookies, user.id);
 		} catch (error) {
 			return fail(500, {
 				formErrors: ['An error occurred while logging in'],

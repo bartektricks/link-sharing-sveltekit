@@ -37,5 +37,5 @@ export const setUserData = async (
 		password: hashedPass,
 	});
 
-	await setSessionCookie(userId, cookies);
+	await setSessionCookie(cookies, userId);
 };

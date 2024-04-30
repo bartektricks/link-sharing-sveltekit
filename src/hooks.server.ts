@@ -1,4 +1,4 @@
-import { lucia } from '$lib/auth';
+import { lucia, setSessionCookie } from '$lib/auth';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
@@ -15,19 +15,11 @@ const sessionHandle: Handle = async ({ event, resolve }) => {
 	const { session, user } = await lucia.validateSession(sessionId);
 
 	if (session?.fresh) {
-		const sessionCookie = lucia.createSessionCookie(session.id);
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes,
-		});
+		await setSessionCookie(event.cookies, session.id);
 	}
 
 	if (!session) {
-		const sessionCookie = lucia.createBlankSessionCookie();
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes,
-		});
+		await setSessionCookie(event.cookies);
 	}
 
 	event.locals.user = user;
