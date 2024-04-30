@@ -1,16 +1,45 @@
-import { getSessionCookie } from '$lib/auth/session';
+import { lucia } from '$lib/auth';
 import { redirect, type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const user = getSessionCookie(event.cookies);
+	const sessionId = event.cookies.get(lucia.sessionCookieName);
+	const isAuthRoute = Boolean(event.route.id?.includes('(auth)'));
 
-	if (!user) {
-		return redirect(302, '/login');
+	if (!sessionId) {
+		event.locals.user = null;
+		event.locals.session = null;
+
+		if (!isAuthRoute) {
+			return redirect(302, '/login');
+		}
+
+		return resolve(event);
 	}
 
-	if (event.route.id?.includes('(auth)')) {
+	const { session, user } = await lucia.validateSession(sessionId);
+
+	if (session?.fresh) {
+		const sessionCookie = lucia.createSessionCookie(session.id);
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: '.',
+			...sessionCookie.attributes,
+		});
+	}
+
+	if (!session) {
+		const sessionCookie = lucia.createBlankSessionCookie();
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: '.',
+			...sessionCookie.attributes,
+		});
+	}
+
+	event.locals.user = user;
+	event.locals.session = session;
+
+	if (user && isAuthRoute) {
 		return redirect(302, '/');
 	}
 
-	return await resolve(event);
+	return resolve(event);
 };

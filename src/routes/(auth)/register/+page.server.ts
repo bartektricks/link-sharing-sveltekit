@@ -3,7 +3,7 @@ import { registerSchema } from './_registerSchema';
 import { setUserData } from '$lib/db/user';
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const formDataEntries = Object.fromEntries(formData.entries());
 
@@ -18,7 +18,7 @@ export const actions = {
 
 		// This should be better but it's just an MVP.
 		try {
-			await setUserData(data);
+			await setUserData(data, cookies);
 		} catch (error) {
 			if (error instanceof Error && error.message.includes('email')) {
 				return fail(400, {

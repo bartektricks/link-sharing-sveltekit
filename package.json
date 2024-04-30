@@ -33,6 +33,7 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"lefthook": "^1.6.10",
+		"lucia": "^3.2.0",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^4.2.7",
@@ -44,6 +45,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@lucia-auth/adapter-drizzle": "^1.0.7",
 		"better-sqlite3": "^9.5.0",
 		"drizzle-orm": "^0.30.7",
 		"zod": "^3.23.3"

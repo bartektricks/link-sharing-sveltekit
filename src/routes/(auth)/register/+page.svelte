@@ -33,6 +33,10 @@
 	] satisfies Field[];
 </script>
 
+{#if form?.formErrors}
+	<p class="error">{form.formErrors}</p>
+{/if}
+
 <AuthForm
 	title="Create account"
 	subtitle="Let’s get you started sharing your links!"

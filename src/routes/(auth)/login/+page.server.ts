@@ -1,7 +1,7 @@
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { loginSchema } from './_loginSchema';
-import { setSessionCookie } from '$lib/auth/session';
 import { getUserData } from '$lib/db/user';
+import { setSessionCookie } from '$lib/auth';
 
 export const actions = {
 	default: async ({ request, cookies }) => {
@@ -27,7 +27,15 @@ export const actions = {
 			});
 		}
 
-		setSessionCookie(cookies, user);
+		try {
+			await setSessionCookie(user.id, cookies);
+		} catch (error) {
+			return fail(500, {
+				formErrors: ['An error occurred while logging in'],
+				fieldErrors: {},
+				fields: formDataEntries,
+			});
+		}
 
 		redirect(302, '/');
 	},

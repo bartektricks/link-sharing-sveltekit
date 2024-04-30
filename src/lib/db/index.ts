@@ -1,6 +1,7 @@
+import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
-import * as schema from './schema'; // TODO use drizzle config instead.
+import * as schema from './schema';
 
 export const DATABASE_URL = process.env.DATABASE_URL ?? 'sqlite.db';
 
@@ -16,5 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const db = drizzle(sqlite, { schema });
+
+export const adapter = new DrizzleSQLiteAdapter(db, schema.session, schema.user);
 
 export default db;
